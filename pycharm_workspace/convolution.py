@@ -104,7 +104,7 @@ def dot_product(array1:np.ndarray, array2:np.ndarray)->int:
             num += array1[row][col] * array2[row][col]
     return num
 
-def convolution(image:np.ndarray, kernel_size:tuple, stride:int)->np.ndarray:
+def convolution(image:np.ndarray, kernel_size:tuple=(3,3), stride:int=1)->np.ndarray:
     # np.array是一个函数，用于创建ndarray对象。
     # ndarray是一个类对象，array是一个方法,这里使用的都应是ndarray
     #进行卷积运算后获得的输出图像（矩阵）的高和宽
@@ -118,7 +118,8 @@ def convolution(image:np.ndarray, kernel_size:tuple, stride:int)->np.ndarray:
     #np.ones中传shape时高和宽反了
     for row in range(0, output_height): #range同样包左不包右，第三个参数可指定步长
         for col in range(0, output_width):
-            output_matrix[row][col] = dot_product(image[row:row + kernel_size[0], col:col + kernel_size[1]], kernel)
+            output_matrix[row][col] = dot_product(
+                image[row*stride : row*stride + kernel_size[0], col*stride : col*stride + kernel_size[1]], kernel)
             #output_matrix[row,col] = kernel.dot(image[row:row + kernel_size[0], col:col + kernel_size[1]])
             #output_matrix[row][col] = np.dot(image[row:row+kernel_size[0], col:col+kernel_size[1]], kernel)
             #这一句一直出现错误：ValueError: setting an array element with a sequence.
@@ -129,7 +130,7 @@ def convolution(image:np.ndarray, kernel_size:tuple, stride:int)->np.ndarray:
     return output_matrix
 
 import cv2
-cv2.imshow('img', convolution(flat_img(img), (3, 3), 1).astype(dtype=np.uint8))
+cv2.imshow('img', convolution(flat_img(img), (3, 3), 3).astype(dtype=np.uint8))
 cv2.waitKey(0)
 """
 convolution函数中np.ones函数传入矩阵shape时宽和高写反了
