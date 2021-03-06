@@ -1,3 +1,7 @@
+pycharm_workspace/face_identify/
+pycharm_workspace/find/
+.idea/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
